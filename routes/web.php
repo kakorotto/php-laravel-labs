@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\PostController;  //require
+use App\Http\Controllers\CreateFormController;  //require
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/test', function () {
-    $name="pola";
-    return view('test',[
-        'name' => $name,
-    ]);
+// Route::get('/test', function () {
+//     $name="pola";
+//     return view('test',[
+//         'name' => $name,
+//     ]);
+// });
+
+Route::get('/form', function () {
+    return view('form');
 });
-Route::get('/tests',[TestController::class,'test']);
+Route::get('/posts/create',[PostController::class,'create']);
+Route::get('/posts',[PostController::class,'index']);
+Route::get('/create-form',[CreateFormController::class,'createForm']);
