@@ -12,7 +12,7 @@ class PostController extends Controller
     public function index(){
         $posts = Post::paginate(8);
         return view('posts.index', [
-            'allPosts' => $this->posts,
+            // 'allPosts' => $this->posts,
             'allPosts' => $posts,
         ]);
     
@@ -32,7 +32,7 @@ class PostController extends Controller
             [
                 'title' => $data['title'],
                 'description' => $data['description'],
-                'user_id' => $data['post_creator'],
+                // 'user_id' => $data['post_creator'],
             ]
         );
         return to_route('posts.index');
@@ -59,7 +59,7 @@ class PostController extends Controller
 
         $post->title = $data['title'];
         $post->description = $data['description'];
-        $post['user_id'] = $data['post_creator'];
+        // $post['user_id'] = $data['post_creator'];
 
         $post->update();
         return to_route('posts.index');
@@ -71,5 +71,5 @@ class PostController extends Controller
         $singlePost->delete();
         return redirect()->route('posts.index');
     }
-    
+
 }
