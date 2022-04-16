@@ -3,54 +3,73 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Post;
+use App\Models\User;
 class PostController extends Controller
 {
 
-    private $posts = [
-        ["id"=>1,"title"=>"dsfa","posted_by"=>"dsfdfs"],
-    ];
     
     public function index(){
-        if( isset($_GET['newData']) ) {
-            $newData = (array) json_decode($_GET['newData']);
-            array_push($this->posts,$newData);
-          
-                
-        }
-        // show view and pass data to v
-        return view( 'posts.index', [
-            'posts' => $this->posts,
+        $posts = Post::paginate(8);
+        return view('posts.index', [
+            'allPosts' => $this->posts,
+            'allPosts' => $posts,
         ]);
     
     }
     public function create(){
         
-        return view('posts.create');
-    
+        $users = User::all();
+        return view('posts.create', [
+            'users' => $users,
+        ]);    
     }
     public function store(){
         
-        if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
-            
-            $generateId = rand();
-            $this->posts= array_merge(['id'=>$generateId],$_POST);
-            $newData = JSON_encode($this->posts);
-            return redirect('/posts?newData='.$newData.'');
-
-        } 
-    
+        $data = request()->all();
+        //insert into database
+        Post::create(
+            [
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'user_id' => $data['post_creator'],
+            ]
+        );
+        return to_route('posts.index');
     }
-    public function show($id) {
+    public function show($post) {
+        $post = Post::find($post);
+
         return view('posts.show', [
-            'posts' => $this->posts,
-            'id' => $id
+            'posts' => $post,
         ]);
     }
      public function edit($id) {
-        return view('posts.edit',[
-            'id' => $id,
-            'posts' => $this->posts,
+        $post = Post::find($id);
+        return view('posts.edit', [
+            'post' => $post,
+            'users' => User::all(),
         ]);
     }
+
+    public function update($post)
+    {
+        $post = Post::find($post);
+        $data = request()->all();
+
+        $post->title = $data['title'];
+        $post->description = $data['description'];
+        $post['user_id'] = $data['post_creator'];
+
+        $post->update();
+        return to_route('posts.index');
+    }
+
+    public function destroy($id)
+    {
+        $singlePost = Post::findOrFail($id);
+        $singlePost->delete();
+        return redirect()->route('posts.index');
+    }
+    
 }
