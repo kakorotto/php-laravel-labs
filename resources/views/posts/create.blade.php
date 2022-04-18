@@ -24,7 +24,7 @@
     </div>
 
     <div class="mb-3">
-        <button type="submit" class="btn btn-success">Create Post</button>
+        <button type="submit" class="btn btn-info">Create Post</button>
     </div>
 </form>
 @endsection

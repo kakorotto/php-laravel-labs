@@ -21,7 +21,7 @@
             @endforeach
         </select>
         <br>
-        <button type="submit" class="btn btn-success">Update</button>
+        <button type="submit" class="btn btn-info">Update</button>
     </div>
 </form>
 @endsection
