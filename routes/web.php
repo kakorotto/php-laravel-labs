@@ -4,6 +4,10 @@ use App\Http\Controllers\PostController;  //require
 use App\Http\Controllers\CreateFormController;  //require
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CommentController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\SocialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,3 +39,5 @@ Route::patch('/comments/{postId}/{commentId}', [CommentController::class, 'edit'
 // })->middleware(['auth'])
 // Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect']);
+Route::get('/auth/callback/{provider}', [SocialController::class, 'callback']);
