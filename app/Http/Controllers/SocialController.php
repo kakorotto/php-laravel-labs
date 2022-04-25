@@ -10,6 +10,7 @@ class SocialController extends Controller
 
     public function redirect($provider)
     {
+        
         return Socialite::driver($provider)->redirect();
     }
 

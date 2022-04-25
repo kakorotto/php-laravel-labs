@@ -21,7 +21,11 @@ use App\Http\Controllers\SocialController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return view('home');
+    } else {
+        return view('auth.login');
+    }
 });
 
 // Route::group(function(){
@@ -37,7 +41,7 @@ Route::delete('/comments/{postId}/{commentId}', [CommentController::class, 'dele
 Route::get('/comments/{postId}/{commentId}', [CommentController::class, 'view'])->name('comments.view')->middleware('auth');
 Route::patch('/comments/{postId}/{commentId}', [CommentController::class, 'edit'])->name('comments.update')->middleware('auth');
 // })->middleware(['auth'])
-// Auth::routes();
+Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/auth/redirect/{provider}', [SocialController::class, 'redirect']);
 Route::get('/auth/callback/{provider}', [SocialController::class, 'callback']);
